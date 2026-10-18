@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Новости — Gridz</title>
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(180deg, var(--forest-50), var(--bg));
+      border-bottom: 1px solid var(--line);
+      padding: clamp(40px, 6vw, 72px) 0;
+    }
+    .page-hero h1 { font-size: var(--fs-h1); margin: 12px 0 8px; }
+
+    .news-grid { display: grid; gap: 16px; }
+    .news-card {
+      padding: 24px 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      transition: box-shadow var(--dur), border-color var(--dur), transform var(--dur);
+    }
+    .news-card:hover { border-color: var(--forest-200); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+    .news-card h3 { margin: 0 0 8px; font-size: 1.1rem; font-weight: 600; }
+    .news-meta {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: var(--fs-xs); font-weight: 600; letter-spacing: .02em;
+      color: var(--forest-600); text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .news-meta::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lime-500); }
+    .news-card p { color: var(--ink-2); font-size: var(--fs-sm); margin: 0 0 8px; }
+    .news-card a { color: var(--forest-600); }
+    .news-card .tag { margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html">Главная</a>
+      <a href="about.html">Документация</a>
+      <a href="xml.html">Схемы XSD</a>
+      <a href="map.html">Лесная карта</a>
+      <a href="news.html" aria-current="page">Новости</a>
+      <a href="price.html" class="nav-cta">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html">Главная</a>
+    <a href="about.html">Документация</a>
+    <a href="xml.html">Схемы XSD</a>
+    <a href="map.html">Лесная карта</a>
+    <a href="news.html" aria-current="page">Новости</a>
+    <a href="price.html">Прайс</a>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><i class="fas fa-newspaper"></i> Обновления</span>
+    <h1>Новости</h1>
+    <p class="lead">Что нового в программах Gridz и «Лесосека».</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="news-grid">
+
+      <article class="news-card reveal">
+        <span class="news-meta">01 мая 2026</span>
+        <h3>Просмотр действующих схем XSD с сайта Рослесхоза</h3>
+        <p>Презентация нового функционала: <a href="https://gridz.ru/xml/presentation.html" target="_blank" rel="noopener">xml/presentation.html</a>. Список схем: <a href="https://gridz.ru/xml/list.php" target="_blank" rel="noopener">xml/list.php</a>.</p>
+        <span class="tag">Новое</span>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">24 июля 2025</span>
+        <h3>Выгрузка введённых координат в GPX, GeoJSON, TML</h3>
+        <p>В настройках выбирается формат выгружаемого файла. Для получения файлов сформируйте отчёт «Координаты».</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">12 июня 2024</span>
+        <h3>Подписание ТОЛ с помощью ЭЦП</h3>
+        <p>При наличии плагина КриптоПро и действующей ЭЦП: при формировании ТОЛ выберите подпись из списка — все файлы в архиве будут подписаны.</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">02 апреля 2024</span>
+        <h3>Формирование лесопатологического обследования (ЛПО)</h3>
+        <p>Пробная версия ЛПО. Перейдите по ссылке с главной или в рабочей ссылке на МДОЛ замените <code>drova</code> на <code>lpo</code>: <code>gridz.ru/off/lpo?user=777</code>.</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">29 октября 2023</span>
+        <h3>Инструкция по работе с абрисом</h3>
+        <p><a href="https://vk.com/video-217939693_456239023" target="_blank" rel="noopener">Смотреть видео</a></p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">11 октября 2023</span>
+        <h3>Формирование Таксационного описания лесосеки (ТОЛ)</h3>
+        <p>ТОЛ формируется на основании заведённой перечётки. Все обязательные поля должны быть заполнены, включая абрис лесосеки. Для нескольких выделов и ярусов включите соответствующую опцию в настройках.</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">16 сентября 2023</span>
+        <h3>Инструкция по работе с программой</h3>
+        <p><a href="https://vk.com/video-217939693_456239021" target="_blank" rel="noopener">Часть 1 — базовая версия</a> · <a href="https://vk.com/video-217939693_456239022" target="_blank" rel="noopener">Часть 2 — полная версия</a></p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">05 сентября 2023</span>
+        <h3>Новый функционал</h3>
+        <p>Возможность добавлять сохранённые данные и новые отчёты по Приказу №688.</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">26 августа 2023</span>
+        <h3>Новое видео на канале</h3>
+        <p><a href="https://youtu.be/SDmborm1bmQ" target="_blank" rel="noopener">Обзор «Расчёт лесосеки»</a> — метод реласкопических площадок.</p>
+      </article>
+
+      <article class="news-card reveal">
+        <span class="news-meta">26 августа 2023</span>
+        <h3>Миниобзор на программу</h3>
+        <p>Как работать в программе и что доступно в платной версии. Вопросы — в Telegram или ВКонтакте.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<footer class="container" style="padding-bottom:48px;text-align:center;color:var(--ink-3);font-size:var(--fs-sm)">
+  © Gridz — будьте в курсе обновлений
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>

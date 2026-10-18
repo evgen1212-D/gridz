@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Документация — Gridz</title>
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(180deg, var(--forest-50), var(--bg));
+      border-bottom: 1px solid var(--line);
+      padding: clamp(40px, 6vw, 72px) 0;
+    }
+    .page-hero h1 { font-size: var(--fs-h1); margin: 12px 0 8px; }
+
+    .doc-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .doc-card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-lg); overflow: hidden;
+      transition: transform var(--dur), box-shadow var(--dur), border-color var(--dur);
+      display: flex; flex-direction: column;
+    }
+    .doc-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--forest-200); }
+    .doc-card img {
+      display: block; width: 100%; aspect-ratio: 16/10; object-fit: cover;
+      border-bottom: 1px solid var(--line); background: var(--line-2);
+    }
+    .doc-card > div { padding: 16px 18px 20px; }
+    .doc-card h4 { font-size: 1rem; font-weight: 600; color: var(--forest-800); margin: 0 0 6px; }
+    .doc-card p  { margin: 0; font-size: var(--fs-sm); color: var(--ink-3); }
+
+    .steps { counter-reset: step; display: grid; gap: 16px; }
+    .step {
+      position: relative; padding: 16px 20px 16px 64px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+    }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--forest-600); color: #fff;
+      display: grid; place-items: center;
+      font-weight: 700; font-size: var(--fs-sm);
+    }
+    .step p { margin: 0; font-size: var(--fs-sm); color: var(--ink-2); }
+    .step strong { color: var(--forest-800); }
+
+    .video-cta {
+      display: inline-flex; align-items: center; gap: 12px;
+      margin-top: 24px;
+      padding: 12px 22px; border-radius: var(--r-pill);
+      background: var(--surface); border: 1px solid var(--line);
+      color: var(--forest-700); font-weight: 600; text-decoration: none;
+      transition: border-color var(--dur), background var(--dur);
+    }
+    .video-cta:hover { border-color: var(--forest-300); background: var(--forest-50); }
+    .video-cta i { color: #C4302B; font-size: 1.4rem; }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html">Главная</a>
+      <a href="about.html" aria-current="page">Документация</a>
+      <a href="xml.html">Схемы XSD</a>
+      <a href="map.html">Лесная карта</a>
+      <a href="news.html">Новости</a>
+      <a href="price.html" class="nav-cta">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html">Главная</a>
+    <a href="about.html" aria-current="page">Документация</a>
+    <a href="xml.html">Схемы XSD</a>
+    <a href="map.html">Лесная карта</a>
+    <a href="news.html">Новости</a>
+    <a href="price.html">Прайс</a>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><i class="fas fa-book-open"></i> Руководство</span>
+    <h1>Документация</h1>
+    <p class="lead">Как установить приложение и работать с программой «Лесосека» — по шагам с примерами интерфейса.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2>Установка программы</h2>
+      <p class="muted">Приложение устанавливается как PWA — без магазинов приложений.</p>
+    </header>
+    <div class="steps reveal">
+      <div class="step"><p><strong>Настольные браузеры.</strong> В адресной строке выберите «Установить приложение».</p></div>
+      <div class="step"><p><strong>Мобильные браузеры.</strong> Меню → «Добавить на главный экран» / «Установить» / «Добавить на телефон».</p></div>
+      <div class="step"><p><strong>iPhone.</strong> Кнопка «Отправить» → «На экран Домой».</p></div>
+      <div class="step"><p><strong>Разрешения.</strong> Если ярлык не создаётся — дайте браузеру право размещать ярлыки (обычно в «Дополнительных разрешениях»).</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2>Работа с программой</h2>
+      <p class="muted">Пошаговые скриншоты по каждому разделу таксации.</p>
+    </header>
+
+    <div class="doc-grid">
+      <article class="doc-card reveal">
+        <img src="img/full_yV1OgJSO.png" loading="lazy" alt="Общие сведения">
+        <div>
+          <h4>Общие сведения</h4>
+          <p>Целевое назначение, № квартала, выдела, лесосеки, площадь.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_mmcQOk4n.png" loading="lazy" alt="Настройки метода таксации">
+        <div>
+          <h4>Метод таксации</h4>
+          <p>Перечёт по 2-см ступеням, учёт семенников и подроста, модельные деревья.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_5FcWng3w.png" loading="lazy" alt="Перечёт 2 см">
+        <div>
+          <h4>Перечёт по 2-см ступеням</h4>
+          <p>Объём промежуточных ступеней — линейной интерполяцией.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_F2vHb4Pb.png" loading="lazy" alt="Быстрый перечёт">
+        <div>
+          <h4>Быстрый перечёт (тап/клик)</h4>
+          <p>«+1 / −1» на смартфоне и ПК, со звуковым сигналом.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_UCsHqIwh.png" loading="lazy" alt="Таксация">
+        <div>
+          <h4>Таксация лесосеки</h4>
+          <p>Порода, разряд высот, таблицы для каждой колонки.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_JZFQZG8e.png" loading="lazy" alt="Ленточный перечёт">
+        <div>
+          <h4>Ленточный перечёт</h4>
+          <p>Количество лент, длина и ширина каждой.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_F8O5bYee.png" loading="lazy" alt="Круговые площадки">
+        <div>
+          <h4>Круговые площадки</h4>
+          <p>Постоянный радиус, автоматический расчёт площади перечёта.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_nC854fJ9.png" loading="lazy" alt="Реласкопические площадки">
+        <div>
+          <h4>Реласкопические площадки</h4>
+          <p>Полнотометр, средние D и H, половинчатые площадки.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/2023-08-31_19-05-17.png" loading="lazy" alt="Угол наклона">
+        <div>
+          <h4>Угол наклона площадки</h4>
+          <p>Автоматическое дублирование по колонкам.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_zEEBlZNB.png" loading="lazy" alt="ТОЛ показатели">
+        <div>
+          <h4>Показатели для ТОЛ</h4>
+          <p>Средние H, D, класс товарности, бонитет, состав.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_T3tJKXLe.png" loading="lazy" alt="Учёт семенников">
+        <div>
+          <h4>Учёт семенников</h4>
+          <p>Количество семенных групп и их площадь.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_DaNhR7Wa.png" loading="lazy" alt="Семенники ведомость">
+        <div>
+          <h4>Семенники — ведомость</h4>
+          <p>Порода, разряд высот, количество по диаметрам.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_VCzeQGqy.png" loading="lazy" alt="Учёт подроста">
+        <div>
+          <h4>Учёт подроста</h4>
+          <p>Количество площадок и их площадь.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_5l38YcAl.png" loading="lazy" alt="Подрост ведомость">
+        <div>
+          <h4>Подрост — ведомость</h4>
+          <p>Пересчёт на крупный и на 1 га автоматически.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_gujqH1QG.png" loading="lazy" alt="Модельные деревья">
+        <div>
+          <h4>Модельные деревья</h4>
+          <p>Ступени толщины и измеренные высоты, разряд — автоматически.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_BD6ya4Xx.png" loading="lazy" alt="Абрис">
+        <div>
+          <h4>Абрис</h4>
+          <p>Румбы, калибровка отрезка, корректировка невязки.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_Qox25qUN.png" loading="lazy" alt="Коэффициенты">
+        <div>
+          <h4>Коэффициенты</h4>
+          <p>К ставкам — от запаса, индексации, склонов и сохранения подроста.</p>
+        </div>
+      </article>
+      <article class="doc-card reveal">
+        <img src="img/full_3zkCvkv5.png" loading="lazy" alt="Итоги">
+        <div>
+          <h4>Итоговые результаты</h4>
+          <p>Объём и сумма по породам и в целом, дровяная древесина.</p>
+        </div>
+      </article>
+    </div>
+
+    <div style="text-align:center">
+      <a href="https://rutube.ru/channel/25358280" target="_blank" rel="noopener" class="video-cta">
+        <i class="fab fa-youtube"></i> Смотреть видео-обзоры
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="container" style="padding-bottom:48px;text-align:center;color:var(--ink-3);font-size:var(--fs-sm)">
+  © Gridz — актуальная документация по программе
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>

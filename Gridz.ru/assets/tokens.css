@@ -1,0 +1,72 @@
+:root {
+  /* Палитра — глубокий лес */
+  --forest-900: #0F2417;
+  --forest-800: #17351F;
+  --forest-700: #1F4A2A;
+  --forest-600: #2C6238;
+  --forest-500: #3D7A4A;
+  --forest-400: #5E9A6B;
+  --forest-300: #8FBC9A;
+  --forest-200: #C4DCC8;
+  --forest-100: #E4F0E6;
+  --forest-50:  #F3F8F4;
+
+  /* Акцент */
+  --lime-500: #99C038;
+  --lime-400: #AFD158;
+  --lime-100: #EFF6E0;
+
+  /* Нейтральные */
+  --ink:      #0F2417;
+  --ink-2:    #3A4A3E;
+  --ink-3:    #6B7A6E;
+  --line:     #DCE6DD;
+  --line-2:   #EDF2EE;
+  --surface:  #FFFFFF;
+  --bg:       #F7FAF7;
+
+  /* Семантика */
+  --success: #3D7A4A;
+  --warning: #C98A12;
+  --danger:  #B83A3A;
+  --info:    #2A6FB0;
+
+  /* Тени */
+  --shadow-xs: 0 1px 2px rgba(15,36,23,.06);
+  --shadow-sm: 0 2px 8px rgba(15,36,23,.06), 0 1px 2px rgba(15,36,23,.04);
+  --shadow-md: 0 8px 24px rgba(15,36,23,.08), 0 2px 6px rgba(15,36,23,.04);
+  --shadow-lg: 0 20px 40px -12px rgba(15,36,23,.14), 0 4px 12px rgba(15,36,23,.06);
+
+  /* Радиусы */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-pill: 999px;
+
+  /* Типографика */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --fs-display: clamp(2.4rem, 4vw, 3.6rem);
+  --fs-h1: clamp(2rem, 3vw, 2.6rem);
+  --fs-h2: clamp(1.4rem, 2vw, 1.75rem);
+  --fs-h3: 1.15rem;
+  --fs-body: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.78rem;
+
+  /* Сетка */
+  --container: 1180px;
+  --gutter: clamp(16px, 4vw, 32px);
+
+  /* Анимация */
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --dur: 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

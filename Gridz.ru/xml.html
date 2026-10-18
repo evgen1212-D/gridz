@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Схемы XSD — Gridz</title>
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+  <style>
+    .hero {
+      background:
+        radial-gradient(1000px 400px at 10% -20%, var(--forest-100), transparent 60%),
+        linear-gradient(180deg, var(--forest-50), var(--bg));
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center;
+      padding-top: clamp(48px, 8vw, 88px); padding-bottom: clamp(48px, 8vw, 88px);
+    }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } }
+    .hero h1 { font-size: var(--fs-display); margin: 20px 0 16px; }
+    .hero-visual {
+      aspect-ratio: 4/3;
+      border-radius: var(--r-xl);
+      background: linear-gradient(135deg,#F3F8F4,#D6E8D8);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      display: grid; place-items: center; padding: 24px;
+    }
+    .hero-visual pre {
+      margin: 0; padding: 20px; width: 100%;
+      background: var(--forest-900); color: var(--forest-200);
+      border-radius: var(--r-md);
+      font-size: 12px; line-height: 1.6; overflow: auto;
+      font-family: ui-monospace, Menlo, monospace;
+    }
+    .hero-visual pre .tag-x { color: var(--lime-400); }
+    .hero-visual pre .attr { color: #A8C6F0; }
+    .hero-visual pre .str  { color: #F2C87A; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .feature {
+      padding: 24px; background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      transition: transform var(--dur), box-shadow var(--dur), border-color var(--dur);
+    }
+    .feature:hover { transform: translateY(-2px); border-color: var(--forest-200); box-shadow: var(--shadow-md); }
+    .feature-icon {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px; height:44px; margin-bottom:16px;
+      border-radius: var(--r-md); background: var(--forest-100); color: var(--forest-600);
+    }
+    .feature h3 { margin: 0 0 6px; }
+    .feature p  { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); }
+
+    .demo-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+
+    /* Ошибки */
+    .error-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; margin: 8px 0;
+      background: #fff; border: 1px solid #EDC4C4; border-radius: var(--r-md);
+      font-family: ui-monospace, Menlo, monospace; font-size: var(--fs-sm);
+      cursor: pointer;
+      transition: transform var(--dur), background var(--dur);
+    }
+    .error-item:hover { background: #FDF0F0; transform: translateX(3px); }
+    .error-item i { color: var(--danger); }
+
+    /* Справочник */
+    .suggestions {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-md); overflow: hidden;
+    }
+    .suggestions li {
+      display: flex; justify-content: space-between; gap: 12px;
+      padding: 10px 14px; font-size: var(--fs-sm);
+      border-bottom: 1px solid var(--line-2);
+      list-style: none;
+    }
+    .suggestions li:last-child { border-bottom: 0; }
+    .suggestions code { color: var(--forest-600); font-weight: 600; }
+
+    .btn-ghost-sm {
+      padding: 8px 14px; border-radius: var(--r-sm);
+      background: var(--surface); border: 1px solid var(--line);
+      color: var(--forest-700); font-size: var(--fs-sm); font-weight: 600;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: border-color var(--dur), background var(--dur);
+    }
+    .btn-ghost-sm:hover { border-color: var(--forest-300); background: var(--forest-50); }
+
+    .section-head { max-width: 720px; }
+    .cta-strip {
+      text-align: center; padding: clamp(32px,5vw,56px) 24px;
+      background: linear-gradient(135deg, var(--forest-700), var(--forest-500));
+      border-radius: var(--r-xl); color: #fff; box-shadow: var(--shadow-lg);
+    }
+    .cta-strip h2 { color: #fff; margin-bottom: 8px; }
+    .cta-strip p { color: rgba(255,255,255,.85); margin-bottom: 24px; }
+    .cta-strip .btn-primary { background: #fff; color: var(--forest-700); }
+    .cta-strip .btn-primary:hover { background: var(--lime-400); color: var(--forest-900); }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html">Главная</a>
+      <a href="about.html">Документация</a>
+      <a href="xml.html" aria-current="page">Схемы XSD</a>
+      <a href="map.html">Лесная карта</a>
+      <a href="news.html">Новости</a>
+      <a href="price.html" class="nav-cta">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html">Главная</a>
+    <a href="about.html">Документация</a>
+    <a href="xml.html" aria-current="page">Схемы XSD</a>
+    <a href="map.html">Лесная карта</a>
+    <a href="news.html">Новости</a>
+    <a href="price.html">Прайс</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow"><i class="fas fa-file-code"></i> ФГИС ЛК · Рослесхоз</span>
+      <h1>Редактор схем XSD</h1>
+      <p class="lead">Визуальный просмотр, умный импорт XML, валидация, блочная работа, автозаполнение файлов и MD5.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+        <a href="https://gridz.ru/xml/list.php" target="_blank" rel="noopener" class="btn btn-primary">
+          <i class="fas fa-list"></i> Все схемы
+        </a>
+        <a href="https://rosleshoz.gov.ru/information-systems/fgis-lk-information/sampledoc-xsd/" target="_blank" rel="noopener" class="btn btn-ghost">
+          Источник (Рослесхоз) <i class="fas fa-arrow-up-right-from-square"></i>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <pre><span class="tag-x">&lt;xs:schema&gt;</span>
+  <span class="tag-x">&lt;xs:element</span> <span class="attr">name=</span><span class="str">"ForestPlot"</span><span class="tag-x">&gt;</span>
+    <span class="tag-x">&lt;xs:sequence&gt;</span>
+      <span class="tag-x">&lt;xs:element</span> <span class="attr">name=</span><span class="str">"CadNumber"</span>
+        <span class="attr">type=</span><span class="str">"xs:string"</span><span class="tag-x">/&gt;</span>
+      <span class="tag-x">&lt;xs:element</span> <span class="attr">name=</span><span class="str">"CuttingArea"</span>
+        <span class="attr">minOccurs=</span><span class="str">"0"</span><span class="tag-x">/&gt;</span>
+    <span class="tag-x">&lt;/xs:sequence&gt;</span>
+  <span class="tag-x">&lt;/xs:element&gt;</span>
+<span class="tag-x">&lt;/xs:schema&gt;</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ВОЗМОЖНОСТИ -->
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Возможности</span>
+      <h2>Всё для работы с XML-документами</h2>
+      <p class="muted">Более 40 видов схем ФГИС ЛК: лесная декларация, отчёт об использовании, таксационное описание, договоры аренды.</p>
+    </header>
+
+    <div class="feature-grid">
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-eye"></i></span>
+        <h3>Визуальная маркировка</h3>
+        <p>Зелёный — обязательный блок, жёлтый — опциональный. Кнопки «Добавить / Удалить» для множественных блоков.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-list-ul"></i></span>
+        <h3>Списки «значение | код»</h3>
+        <p>Например: «Валаамское, Сортавальское | 10:16:1». Автодополнение по значению или коду.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-magic"></i></span>
+        <h3>Умный импорт XML</h3>
+        <p>Совпадающие поля заполняются даже если структура исходного XML отличается.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-exclamation-triangle"></i></span>
+        <h3>Панель ошибок</h3>
+        <p>Клик по ошибке — переход к нужному полю. XML формируется всегда, можно дозагрузить позже.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-puzzle-piece"></i></span>
+        <h3>Блочная работа</h3>
+        <p>Сохраняйте блоки в файл и вставляйте в другие формы. Буфер обмена между вкладками.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-folder-open"></i></span>
+        <h3>Автозаполнение файлов</h3>
+        <p>Имя файла, URI и MD5-хеш — из указанной папки одним кликом.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-map"></i></span>
+        <h3>Импорт координат</h3>
+        <p>KML, GeoJSON, GPX → поля «Долгота», «Широта» в формате XSD.</p>
+      </div>
+      <div class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-print"></i></span>
+        <h3>Печать и Excel</h3>
+        <p>Печать в PDF и копия таблицы в буфер для вставки в Excel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ДЕМО: ошибки + справочник -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="demo-grid">
+
+      <div class="panel panel--danger reveal">
+        <h3><i class="fas fa-bug" style="color:var(--danger);margin-right:8px"></i> Валидация по XSD</h3>
+        <p class="muted" style="font-size:var(--fs-sm)">Клик по ошибке — переход к полю формы.</p>
+        <div class="error-item" onclick="alert('Переход к полю: Идентификатор поставщика данных')">
+          <i class="fas fa-times-circle"></i> Не заполнено: Идентификатор поставщика данных
+        </div>
+        <div class="error-item" onclick="alert('Переход к полю: Номер таксационного описания')">
+          <i class="fas fa-times-circle"></i> Не заполнено: Номер таксационного описания
+        </div>
+        <div class="error-item" onclick="alert('Переход к полю: Субъект РФ')">
+          <i class="fas fa-times-circle"></i> Значение не из списка субъектов РФ
+        </div>
+        <div class="error-item" onclick="alert('Переход к полю: Фамилия')">
+          <i class="fas fa-times-circle"></i> Не заполнено: Фамилия
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-list-ul" style="color:var(--forest-600);margin-right:8px"></i> Справочник «значение | код»</h3>
+        <p class="muted" style="font-size:var(--fs-sm)">Наименование и номер участкового лесничества:</p>
+        <ul class="suggestions">
+          <li><span>Валаамское, Сортавальское, Республика Карелия</span> <code>10:16:1</code></li>
+          <li><span>Ладожское, Сортавальское, Республика Карелия</span> <code>10:16:2</code></li>
+          <li><span>Пуйкольское, Сортавальское, Республика Карелия</span> <code>10:16:3</code></li>
+          <li><span>Рускеальское, Сортавальское, Республика Карелия</span> <code>10:16:4</code></li>
+        </ul>
+        <p class="muted" style="margin-top:12px;font-size:var(--fs-sm)">Ввод «валь» → мгновенная фильтрация списка.</p>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-upload" style="color:var(--forest-600);margin-right:8px"></i> Загрузка XML</h3>
+        <p class="muted" style="font-size:var(--fs-sm)">Даже если структура исходного XML другая — все совпадающие поля заполнятся.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <a href="https://gridz.ru/xml/index.php?xml=1&id=24&rE=pilTaxationDescriptionCuttingArea" target="_blank" rel="noopener" class="btn-ghost-sm">
+            <i class="fas fa-file-import"></i> Таксационное описание
+          </a>
+          <a href="https://gridz.ru/xml/?id=1&rE=forestDeclaration" target="_blank" rel="noopener" class="btn-ghost-sm">
+            <i class="fas fa-file-import"></i> Лесная декларация
+          </a>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-folder-open" style="color:var(--forest-600);margin-right:8px"></i> Автозаполнение из папки</h3>
+        <div class="shape-list" style="margin-top:8px">
+          <div class="shape-item"><strong>file_name</strong><span class="field-demo">forest_act_2026.pdf</span></div>
+          <div class="shape-item"><strong>file_uri</strong><span class="field-demo">/home/docs/forest_act_2026.pdf</span></div>
+          <div class="shape-item"><strong>file_md5</strong><span class="field-demo">5d41402abc…</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta-strip reveal">
+      <h2>Попробуйте редактор XSD</h2>
+      <p>Схемы актуальны на 05.05.2026 · 01.12.2023 · другие версии</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="https://gridz.ru/xml/index.php?xml=1&id=24&rE=pilTaxationDescriptionCuttingArea" target="_blank" rel="noopener" class="btn btn-primary">
+          <i class="fas fa-pen"></i> Таксационное описание
+        </a>
+        <a href="https://gridz.ru/xml/?id=1&rE=forestDeclaration" target="_blank" rel="noopener" class="btn btn-primary">
+          <i class="fas fa-pen"></i> Лесная декларация
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="container" style="padding-bottom:48px;text-align:center;color:var(--ink-3);font-size:var(--fs-sm)">
+  © Gridz — <a href="mailto:torn008@mail.ru">torn008@mail.ru</a>
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>

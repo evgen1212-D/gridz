@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Прайс — Gridz</title>
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(180deg, var(--forest-50), var(--bg));
+      border-bottom: 1px solid var(--line);
+      padding: clamp(40px, 6vw, 72px) 0;
+    }
+    .page-hero h1 { font-size: var(--fs-h1); margin: 12px 0 8px; }
+
+    .award {
+      display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+      padding: 24px; margin-bottom: 32px;
+      background: var(--forest-50); border: 1px solid var(--forest-200);
+      border-radius: var(--r-xl);
+    }
+    .award img {
+      width: 140px; height: auto; border-radius: var(--r-md);
+      box-shadow: var(--shadow-md); cursor: pointer;
+    }
+    .award > div { flex: 1; min-width: 260px; }
+    .award h3 { margin: 0 0 8px; color: var(--forest-700); }
+
+    .plan-grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-bottom: 32px;
+    }
+    .plan {
+      padding: 28px 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      display: flex; flex-direction: column;
+      transition: border-color var(--dur), box-shadow var(--dur), transform var(--dur);
+    }
+    .plan:hover { border-color: var(--forest-200); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .plan--featured { border-color: var(--forest-400); box-shadow: 0 0 0 1px var(--forest-400), var(--shadow-md); position: relative; }
+    .plan--featured::before {
+      content: "Расширенный"; position: absolute; top: -12px; right: 20px;
+      padding: 4px 12px; background: var(--forest-600); color: #fff;
+      font-size: var(--fs-xs); font-weight: 700; border-radius: var(--r-pill);
+      letter-spacing: .03em; text-transform: uppercase;
+    }
+    .plan h3 { margin: 0 0 4px; font-size: 1.05rem; color: var(--forest-800); }
+    .plan .price { font-size: 1.75rem; font-weight: 700; color: var(--forest-700); margin: 8px 0; letter-spacing: -.02em; }
+    .plan .price small { font-size: var(--fs-sm); font-weight: 500; color: var(--ink-3); }
+    .plan ul { list-style: none; padding: 0; margin: 12px 0 20px; flex: 1; }
+    .plan ul li { padding: 6px 0 6px 26px; position: relative; font-size: var(--fs-sm); color: var(--ink-2); }
+    .plan ul li::before {
+      content: "\f00c"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+      position: absolute; left: 0; top: 6px; color: var(--forest-500); font-size: .8em;
+    }
+    .plan .btn { justify-content: center; }
+
+    /* Таблица тарифов */
+    .tb {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--r-lg); overflow: hidden;
+      font-size: var(--fs-sm);
+      margin-top: 20px;
+    }
+    .tb th {
+      text-align: left; padding: 14px 18px;
+      background: var(--forest-50); color: var(--forest-800);
+      font-weight: 600; font-size: var(--fs-xs); letter-spacing: .04em; text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
+    }
+    .tb td {
+      padding: 16px 18px; border-bottom: 1px solid var(--line-2);
+      vertical-align: top; color: var(--ink-2);
+    }
+    .tb tr:last-child td { border-bottom: 0; }
+    .tb tr:hover td { background: var(--forest-50); }
+    .tb td strong { color: var(--forest-700); font-weight: 700; }
+
+    .note {
+      padding: 16px 20px; border-radius: var(--r-md);
+      background: #FDF0F0; border: 1px solid #EDC4C4;
+      color: var(--danger); font-size: var(--fs-sm);
+      margin: 20px 0;
+    }
+    .fineprint { font-size: var(--fs-xs); color: var(--ink-3); line-height: 1.7; }
+
+    .contact-strip {
+      text-align: center; padding: clamp(32px, 5vw, 56px) 24px;
+      background: linear-gradient(135deg, var(--forest-700), var(--forest-500));
+      border-radius: var(--r-xl); color: #fff; box-shadow: var(--shadow-lg);
+      margin-top: 40px;
+    }
+    .contact-strip h2 { color: #fff; margin-bottom: 8px; }
+    .contact-strip p { color: rgba(255,255,255,.85); margin-bottom: 24px; }
+    .contact-strip .btn-primary { background: #fff; color: var(--forest-700); }
+    .contact-strip .btn-primary:hover { background: var(--lime-400); color: var(--forest-900); }
+
+    @media (max-width: 767px) {
+      .tb, .tb tbody, .tb tr, .tb td { display: block; }
+      .tb thead { display: none; }
+      .tb tr {
+        margin-bottom: 16px; padding: 8px 4px;
+        border: 1px solid var(--line); border-radius: var(--r-md);
+      }
+      .tb td { display: flex; justify-content: space-between; gap: 12px; padding: 10px 8px; border-bottom: 1px dashed var(--line-2); }
+      .tb td:last-child { border-bottom: 0; }
+      .tb td::before {
+        content: attr(data-label); font-weight: 600; color: var(--forest-700);
+        width: 44%; flex-shrink: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html">Главная</a>
+      <a href="about.html">Документация</a>
+      <a href="xml.html">Схемы XSD</a>
+      <a href="map.html">Лесная карта</a>
+      <a href="news.html">Новости</a>
+      <a href="price.html" class="nav-cta" aria-current="page">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html">Главная</a>
+    <a href="about.html">Документация</a>
+    <a href="xml.html">Схемы XSD</a>
+    <a href="map.html">Лесная карта</a>
+    <a href="news.html">Новости</a>
+    <a href="price.html" aria-current="page">Прайс</a>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><i class="fas fa-tag"></i> Тарифы</span>
+    <h1>Прайс-лист</h1>
+    <p class="lead">Бесплатная базовая версия и расширенные тарифы для лесничеств и регионов.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <!-- Награда -->
+    <div class="award reveal">
+      <img src="img/thank_you_letter.jpg" alt="Благодарственное письмо Минприроды Южной Осетии"
+           onclick="window.open('img/thank_you_letter_full.webp','_blank')">
+      <div>
+        <h3><i class="fas fa-award"></i> Государственное признание</h3>
+        <p style="margin:0;color:var(--ink-2)">Благодарственное письмо от <strong>Министерства природы и охраны окружающей среды Республики Южная Осетия</strong> — за помощь в цифровизации лесного хозяйства.</p>
+        <a href="img/thank_you_letter_full.webp" target="_blank" rel="noopener" style="margin-top:8px;display:inline-block;font-weight:600">Читать письмо <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- Старая версия -->
+    <h2 style="margin:0 0 20px">Старая версия</h2>
+    <div class="plan-grid">
+      <div class="plan reveal">
+        <h3>Бесплатная</h3>
+        <div class="price">0 ₽ <small>/ навсегда</small></div>
+        <ul>
+          <li>Перечётная ведомость (сплошной перечёт)</li>
+          <li>МДОЛ</li>
+          <li>Список настроенных регионов</li>
+        </ul>
+        <a href="https://gridz.ru/list.php" target="_blank" rel="noopener" class="btn btn-ghost">Список регионов</a>
+      </div>
+
+      <div class="plan reveal">
+        <h3>Платная</h3>
+        <div class="price">от 12 000 ₽ <small>/ год</small></div>
+        <ul>
+          <li>Расчёт объёма и разряда высот</li>
+          <li>Все виды таксации</li>
+          <li>Семенники, подрост, модельные деревья</li>
+          <li>Абрис лесосеки, ТОЛ</li>
+          <li>Перечёт по 2-см ступеням</li>
+          <li>Отчётные формы и офлайн-версия</li>
+        </ul>
+        <a href="https://gridz.ru/?user=777" target="_blank" rel="noopener" class="btn btn-primary">Демо полной версии</a>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px">Тарифы старой версии</h3>
+    <table class="tb">
+      <thead>
+        <tr>
+          <th>Вариант</th>
+          <th>Описание</th>
+          <th>Цена, ₽ / год</th>
+          <th>Продление, ₽</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Вариант"><strong>Полная персональная на 1 лесничество</strong></td>
+          <td data-label="Описание">Фиксация 1 лесничества, подписи внизу ведомости</td>
+          <td data-label="Цена"><strong>12 000</strong></td>
+          <td data-label="Продление">2 000</td>
+        </tr>
+        <tr>
+          <td data-label="Вариант"><strong>Полная персональная на регион</strong></td>
+          <td data-label="Описание">Все лесничества, подпись внизу</td>
+          <td data-label="Цена"><strong>40 000*</strong></td>
+          <td data-label="Продление">8 000</td>
+        </tr>
+        <tr>
+          <td data-label="Вариант"><strong>Полная на 1 лесничество</strong></td>
+          <td data-label="Описание">1 лесничество, все сотрудники (без фиксации подписи)</td>
+          <td data-label="Цена"><strong>40 000**</strong></td>
+          <td data-label="Продление">8 000</td>
+        </tr>
+        <tr>
+          <td data-label="Вариант"><strong>Полная на регион</strong></td>
+          <td data-label="Описание">Любое лесничество региона, подпись — пользователем</td>
+          <td data-label="Цена"><strong>Договорная***</strong></td>
+          <td data-label="Продление">~20 %</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="fineprint">
+      * зависит от количества пользователей заказчика. ·
+      ** зависит от количества пользователей и участковых лесничеств. ·
+      *** от 350 000 ₽, рассчитывается индивидуально.
+    </p>
+
+    <!-- Новая версия -->
+    <h2 style="margin:48px 0 20px">Расчёт Лесосеки-2 (ТОЛ) <span class="tag" style="vertical-align:middle">апрель 2025</span></h2>
+    <p class="muted" style="margin-top:-8px">Расширенный функционал: таксация, разряды высот, семенники, модельные деревья, абрис, подрост, ТОЛ, перечёт по 2-см ступеням, офлайн-версия, отчётные формы.</p>
+
+    <table class="tb">
+      <thead>
+        <tr>
+          <th>Версия</th>
+          <th>Описание</th>
+          <th>Цена, ₽ / год</th>
+          <th>Продление</th>
+          <th>Доплата*</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Версия"><strong>Персональная на 1 лесничество</strong></td>
+          <td data-label="Описание">Фиксация 1 лесничества, подписи внизу</td>
+          <td data-label="Цена"><strong>15 000</strong></td>
+          <td data-label="Продление">3 000</td>
+          <td data-label="Доплата">3 000</td>
+        </tr>
+        <tr>
+          <td data-label="Версия"><strong>Персональная на регион</strong></td>
+          <td data-label="Описание">Все лесничества, подписи внизу</td>
+          <td data-label="Цена"><strong>от 50 000**</strong></td>
+          <td data-label="Продление">9 500</td>
+          <td data-label="Доплата">10 000</td>
+        </tr>
+        <tr>
+          <td data-label="Версия"><strong>На 1 лесничество (без подписи)</strong></td>
+          <td data-label="Описание">Все сотрудники лесничества</td>
+          <td data-label="Цена"><strong>от 50 000***</strong></td>
+          <td data-label="Продление">9 500</td>
+          <td data-label="Доплата">10 000</td>
+        </tr>
+        <tr>
+          <td data-label="Версия"><strong>На регион (без ограничений)</strong></td>
+          <td data-label="Описание">Любое лесничество, подпись — пользователем</td>
+          <td data-label="Цена"><strong>Договорная****</strong></td>
+          <td data-label="Продление">~20 %</td>
+          <td data-label="Доплата">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="fineprint">
+      * доплата для пользователей полной версии старой программы. ·
+      ** зависит от количества пользователей. ·
+      *** зависит от количества пользователей и участковых лесничеств. ·
+      **** от 350 000 ₽, индивидуально.
+    </p>
+
+    <div class="note">
+      <strong><i class="fas fa-exclamation-triangle"></i> Важно.</strong>
+      Заказчикам двух и более версий — скидка до 35 %. При использовании персональной версии третьими лицами программа не поддерживается.
+    </div>
+
+    <div class="contact-strip reveal">
+      <h2>Свяжитесь с нами</h2>
+      <p>Подберём тариф под ваше лесничество или регион.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="https://vk.me/id688546799" target="_blank" rel="noopener" class="btn btn-primary">
+          <i class="fas fa-comment"></i> Написать менеджеру
+        </a>
+        <a href="https://vk.com/club217939693" target="_blank" rel="noopener" class="btn btn-ghost" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff">
+          <i class="fab fa-vk"></i> Группа ВК
+        </a>
+        <a href="https://rutube.ru/channel/25358280/videos" target="_blank" rel="noopener" class="btn btn-ghost" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff">
+          <i class="fab fa-youtube"></i> Видео
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="container" style="padding-bottom:48px;text-align:center;color:var(--ink-3);font-size:var(--fs-sm)">
+  © Новые технологии для лесного хозяйства — <a href="https://gridz.ru">gridz.ru</a>
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>

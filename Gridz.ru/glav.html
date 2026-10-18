@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Gridz — лесные технологии</title>
+  <meta name="description" content="Gridz — программы для лесного хозяйства: расчёт лесосеки, ТОЛ, схемы XSD ФГИС ЛК, публичная лесная карта.">
+
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link rel="icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/favicon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(1200px 500px at 80% -10%, var(--forest-100), transparent 60%),
+        radial-gradient(800px 400px at 0% 100%, var(--lime-100), transparent 55%),
+        linear-gradient(180deg, var(--forest-50) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 48px; align-items: center;
+      padding-top: clamp(56px, 9vw, 112px);
+      padding-bottom: clamp(56px, 9vw, 112px);
+    }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 32px; } }
+
+    .hero h1 {
+      font-size: var(--fs-display);
+      margin: 20px 0 16px;
+      letter-spacing: -.03em;
+    }
+    .hero h1 .accent { color: var(--forest-500); }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 20px; }
+    .hero-badges { list-style: none; padding: 0; margin: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+    .hero-badges li { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--ink-3); }
+    .hero-badges i { color: var(--forest-500); }
+
+    /* Hero-visual — карточка продукта */
+    .hero-visual {
+      position: relative;
+      border-radius: var(--r-xl);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(400px 200px at 100% 0%, var(--forest-100), transparent 70%),
+        radial-gradient(300px 200px at 0% 100%, var(--lime-100), transparent 70%);
+      pointer-events: none;
+    }
+    .hv-head {
+      display: flex; align-items: center; gap: 8px;
+      padding-bottom: 14px; margin-bottom: 14px;
+      border-bottom: 1px solid var(--line-2);
+      position: relative;
+    }
+    .hv-dots { display: flex; gap: 6px; }
+    .hv-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+    .hv-dots span:nth-child(1) { background: #E9A6A6; }
+    .hv-dots span:nth-child(2) { background: #EADCA1; }
+    .hv-dots span:nth-child(3) { background: #A6D2A6; }
+    .hv-title { margin-left: auto; font-size: var(--fs-xs); color: var(--ink-3); font-weight: 600; }
+
+    .hv-rows { display: grid; gap: 10px; position: relative; }
+    .hv-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: var(--r-md);
+      background: var(--forest-50);
+      border: 1px solid var(--line);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--ink-2);
+    }
+    .hv-row i {
+      width: 28px; height: 28px; border-radius: var(--r-sm);
+      background: var(--forest-100); color: var(--forest-600);
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .hv-row .hv-ok { margin-left: auto; color: var(--forest-500); font-size: .9em; }
+    .hv-row--live {
+      background: var(--forest-600); border-color: var(--forest-700); color: #fff;
+    }
+    .hv-row--live i { background: rgba(255,255,255,.2); color: #fff; }
+    .hv-row--live .hv-ok { color: var(--lime-400); }
+
+    /* ===== СТАТИСТИКА ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: clamp(2rem, 3.5vw, 2.6rem);
+      font-weight: 800; letter-spacing: -.03em;
+      color: var(--forest-700);
+      line-height: 1;
+    }
+    .stat-num small { font-size: .5em; color: var(--forest-500); }
+    .stat-label { margin-top: 6px; font-size: var(--fs-sm); color: var(--ink-3); }
+
+    /* ===== ПРОДУКТЫ ===== */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .product {
+      position: relative;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      display: flex; flex-direction: column;
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur), border-color var(--dur);
+      overflow: hidden;
+    }
+    .product::after {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(400px 200px at 100% 0%, var(--forest-50), transparent 60%);
+      opacity: 0; transition: opacity var(--dur);
+      pointer-events: none;
+    }
+    .product:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--forest-200); }
+    .product:hover::after { opacity: 1; }
+
+    .product-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px;
+      border-radius: var(--r-lg);
+      background: var(--forest-100); color: var(--forest-700);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .product h3 { margin: 0 0 8px; font-size: 1.25rem; position: relative; }
+    .product p { margin: 0 0 20px; color: var(--ink-3); font-size: var(--fs-sm); position: relative; }
+    .product .product-link {
+      margin-top: auto; position: relative;
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--forest-600); font-weight: 600; font-size: var(--fs-sm);
+      text-decoration: none;
+    }
+    .product .product-link:hover { color: var(--forest-700); }
+    .product .product-link i { transition: transform var(--dur); }
+    .product .product-link:hover i { transform: translateX(3px); }
+
+    .product--featured {
+      background: linear-gradient(135deg, var(--forest-700), var(--forest-600));
+      border-color: transparent; color: #fff;
+    }
+    .product--featured::after { display: none; }
+    .product--featured h3 { color: #fff; }
+    .product--featured p { color: rgba(255,255,255,.8); }
+    .product--featured .product-icon { background: rgba(255,255,255,.15); color: #fff; }
+    .product--featured .product-link { color: var(--lime-400); }
+    .product--featured .product-link:hover { color: #fff; }
+
+    .product-label {
+      position: absolute; top: 20px; right: 20px;
+      padding: 4px 10px; border-radius: var(--r-pill);
+      background: var(--lime-500); color: var(--forest-900);
+      font-size: var(--fs-xs); font-weight: 700;
+      letter-spacing: .03em; text-transform: uppercase;
+    }
+
+    /* ===== ВОЗМОЖНОСТИ ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur), border-color var(--dur);
+    }
+    .feature:hover { transform: translateY(-2px); border-color: var(--forest-200); box-shadow: var(--shadow-md); }
+    .feature-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; margin-bottom: 16px;
+      border-radius: var(--r-md);
+      background: var(--forest-100); color: var(--forest-600);
+      font-size: 1.1rem;
+    }
+    .feature h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .feature p { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); }
+
+    /* ===== НАГРАДА ===== */
+    .award {
+      display: flex; gap: 28px; align-items: center; flex-wrap: wrap;
+      padding: 28px;
+      background: var(--forest-50);
+      border: 1px solid var(--forest-200);
+      border-radius: var(--r-xl);
+    }
+    .award img {
+      width: 160px; height: auto; border-radius: var(--r-md);
+      box-shadow: var(--shadow-md); cursor: pointer;
+      transition: transform var(--dur);
+    }
+    .award img:hover { transform: scale(1.02); }
+    .award > div { flex: 1; min-width: 260px; }
+    .award h3 { margin: 0 0 8px; color: var(--forest-700); }
+    .award p { margin: 0 0 12px; color: var(--ink-2); }
+
+    /* ===== CTA ===== */
+    .cta-strip {
+      text-align: center;
+      padding: clamp(40px, 6vw, 72px) 24px;
+      background: linear-gradient(135deg, var(--forest-700), var(--forest-500));
+      border-radius: var(--r-xl);
+      color: #fff;
+      box-shadow: var(--shadow-lg);
+    }
+    .cta-strip h2 { color: #fff; margin-bottom: 8px; font-size: var(--fs-h2); }
+    .cta-strip p { color: rgba(255,255,255,.85); margin-bottom: 24px; }
+    .cta-strip .btn-primary { background: #fff; color: var(--forest-700); }
+    .cta-strip .btn-primary:hover { background: var(--lime-400); color: var(--forest-900); }
+
+    /* ===== КОНТАКТЫ ===== */
+    .contacts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .contact-card {
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      display: flex; flex-direction: column; gap: 8px;
+      text-decoration: none; color: var(--ink);
+      transition: border-color var(--dur), box-shadow var(--dur);
+    }
+    .contact-card:hover { border-color: var(--forest-200); box-shadow: var(--shadow-sm); }
+    .contact-card i { color: var(--forest-600); font-size: 1.3rem; }
+    .contact-card .contact-title { font-weight: 600; font-size: var(--fs-sm); }
+    .contact-card .contact-value { font-size: var(--fs-sm); color: var(--ink-3); }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html" aria-current="page">Главная</a>
+      <a href="about.html">Документация</a>
+      <a href="xml.html">Схемы XSD</a>
+      <a href="map.html">Лесная карта</a>
+      <a href="news.html">Новости</a>
+      <a href="price.html" class="nav-cta">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html" aria-current="page">Главная</a>
+    <a href="about.html">Документация</a>
+    <a href="xml.html">Схемы XSD</a>
+    <a href="map.html">Лесная карта</a>
+    <a href="news.html">Новости</a>
+    <a href="price.html">Прайс</a>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow"><i class="fas fa-tree"></i> Лесные технологии · с 2019</span>
+      <h1>Цифровые инструменты<br>для <span class="accent">лесного хозяйства</span></h1>
+      <p class="lead">Таксация, ТОЛ, абрисы, схемы XSD ФГИС ЛК и публичная карта — в одном наборе программ. Проверено министерствами.</p>
+      <div class="hero-actions">
+        <a href="price.html" class="btn btn-primary">
+          Смотреть тарифы <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="map.html" class="btn btn-ghost">
+          <i class="fas fa-map-marked-alt"></i> Открыть карту
+        </a>
+      </div>
+      <ul class="hero-badges">
+        <li><i class="fas fa-check-circle"></i> Работает офлайн</li>
+        <li><i class="fas fa-check-circle"></i> Поддержка ФГИС ЛК</li>
+        <li><i class="fas fa-check-circle"></i> Благодарность Минприроды</li>
+      </ul>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hv-head">
+        <div class="hv-dots"><span></span><span></span><span></span></div>
+        <span class="hv-title">gridz.ru</span>
+      </div>
+      <div class="hv-rows">
+        <div class="hv-row">
+          <i class="fas fa-tree"></i> Таксация лесосеки
+          <i class="fas fa-check-circle hv-ok"></i>
+        </div>
+        <div class="hv-row">
+          <i class="fas fa-draw-polygon"></i> Абрис · 12 точек
+          <i class="fas fa-check-circle hv-ok"></i>
+        </div>
+        <div class="hv-row">
+          <i class="fas fa-file-code"></i> Схемы XSD · ФГИС ЛК
+          <i class="fas fa-check-circle hv-ok"></i>
+        </div>
+        <div class="hv-row hv-row--live">
+          <i class="fas fa-map-marked-alt"></i> Лесная карта
+          <span class="hv-ok"><i class="fas fa-circle" style="font-size:.5em"></i> live</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== СТАТИСТИКА ===== -->
+<section class="container">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">40<small>+</small></div>
+      <div class="stat-label">схем XSD ФГИС ЛК</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">15<small>+</small></div>
+      <div class="stat-label">регионов используют</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">14</div>
+      <div class="stat-label">инструментов карты</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1<small> мин</small></div>
+      <div class="stat-label">на выгрузку абриса</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ПРОДУКТЫ ===== -->
+<section class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Продукты</span>
+      <h2>Что мы делаем</h2>
+      <p class="muted">Три продукта — для полевых работ, для отчётности и для работы с документами ФГИС ЛК.</p>
+    </header>
+
+    <div class="products">
+      <article class="product product--featured reveal">
+        <span class="product-label">Хит</span>
+        <span class="product-icon"><i class="fas fa-calculator"></i></span>
+        <h3>Программа «Лесосека»</h3>
+        <p>Таксация, перечёт по 2-см ступеням, семенники, подрост, абрис, ТОЛ. Полная автоматизация подготовки отчётности.</p>
+        <a href="price.html" class="product-link">
+          Тарифы и демо <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="product reveal">
+        <span class="product-icon"><i class="fas fa-map-marked-alt"></i></span>
+        <h3>Публичная лесная карта</h3>
+        <p>Слои Рослесхоза, GPS-обход, фотофиксация, экспорт в GeoJSON и PNG. Бесплатно, работает в браузере.</p>
+        <a href="map.html" class="product-link">
+          Открыть карту <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="product reveal">
+        <span class="product-icon"><i class="fas fa-file-code"></i></span>
+        <h3>Редактор схем XSD</h3>
+        <p>Визуальный просмотр, умный импорт XML, валидация, автозаполнение файлов и MD5 для ФГИС ЛК.</p>
+        <a href="xml.html" class="product-link">
+          Работать со схемами <i class="fas fa-arrow-right"></i>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ВОЗМОЖНОСТИ ===== -->
+<section class="section" style="background:var(--forest-50);border-block:1px solid var(--line)">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Возможности</span>
+      <h2>Почему выбирают Gridz</h2>
+    </header>
+
+    <div class="feature-grid">
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-award"></i></span>
+        <h3>Государственное признание</h3>
+        <p>Благодарственное письмо от Министерства природы Республики Южная Осетия.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-wifi"></i></span>
+        <h3>Работает офлайн</h3>
+        <p>Карта и программа «Лесосека» доступны без интернета — в поле, в тайге, где нет связи.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-sync-alt"></i></span>
+        <h3>Совместимость с ФГИС ЛК</h3>
+        <p>Схемы Рослесхоза актуальны, экспорт ТОЛ, ЛД и ЛПО — в один клик.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-headset"></i></span>
+        <h3>Поддержка пользователей</h3>
+        <p>Помогаем с настройкой, вносим поправки и дорабатываем под ваш регион.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-mobile-alt"></i></span>
+        <h3>Работает на телефоне</h3>
+        <p>Перечёт тапом по экрану, GPS-обход, фотофиксация прямо в приложении.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-lock"></i></span>
+        <h3>Данные — у вас</h3>
+        <p>Локальная база IndexedDB, никакой передачи третьим лицам. Офлайн-синхронизация.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== НАГРАДА ===== -->
+<section class="section">
+  <div class="container">
+    <div class="award reveal">
+      <img src="img/thank_you_letter.jpg"
+           alt="Благодарственное письмо Минприроды Южной Осетии"
+           onclick="window.open('img/thank_you_letter_full.webp','_blank')">
+      <div>
+        <h3><i class="fas fa-award" style="margin-right:8px"></i>Государственное признание</h3>
+        <p>Мы получили благодарственное письмо от <strong>Министерства природы и охраны окружающей среды Республики Южная Осетия</strong> за помощь в цифровизации лесного хозяйства региона.</p>
+        <a href="img/thank_you_letter_full.webp" target="_blank" rel="noopener" style="font-weight:600">
+          Читать письмо <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta-strip reveal">
+      <h2>Готовы начать?</h2>
+      <p>Бесплатная версия — навсегда. Платная — от 12 000 ₽ в год.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="price.html" class="btn btn-primary">
+          <i class="fas fa-tag"></i> Смотреть тарифы
+        </a>
+        <a href="https://vk.me/id688546799" target="_blank" rel="noopener" class="btn btn-ghost"
+           style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35);color:#fff">
+          <i class="fas fa-comment"></i> Задать вопрос
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== КОНТАКТЫ ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Контакты</span>
+      <h2>Связаться с нами</h2>
+    </header>
+
+    <div class="contacts">
+      <a href="mailto:torn008@mail.ru" class="contact-card reveal">
+        <i class="fas fa-envelope"></i>
+        <span class="contact-title">Email</span>
+        <span class="contact-value">torn008@mail.ru</span>
+      </a>
+      <a href="https://vk.me/id688546799" target="_blank" rel="noopener" class="contact-card reveal">
+        <i class="fab fa-vk"></i>
+        <span class="contact-title">ВКонтакте</span>
+        <span class="contact-value">Менеджер · vk.me/id688546799</span>
+      </a>
+      <a href="https://vk.com/club217939693" target="_blank" rel="noopener" class="contact-card reveal">
+        <i class="fab fa-vk"></i>
+        <span class="contact-title">Группа ВК</span>
+        <span class="contact-value">Новости и инструкции</span>
+      </a>
+      <a href="https://rutube.ru/channel/25358280" target="_blank" rel="noopener" class="contact-card reveal">
+        <i class="fab fa-youtube"></i>
+        <span class="contact-title">Видео</span>
+        <span class="contact-value">Обзоры на Rutube</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer style="border-top:1px solid var(--line);padding:40px 0 48px;margin-top:16px">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="32" height="32">
+      <span class="brand-name" style="font-size:1rem">Gridz</span>
+    </a>
+    <span style="color:var(--ink-3);font-size:var(--fs-sm)">
+      © Новые технологии для лесного хозяйства · gridz.ru
+    </span>
+  </div>
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>

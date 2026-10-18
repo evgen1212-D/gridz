@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2C6238">
+  <title>Лесная карта — Gridz</title>
+  <link rel="shortcut icon" href="img/logotyp.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/header.css">
+  <style>
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      background:
+        radial-gradient(1200px 500px at 80% -10%, var(--forest-100), transparent 60%),
+        linear-gradient(180deg, var(--forest-50) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 48px; align-items: center;
+      padding-top: clamp(48px, 8vw, 96px);
+      padding-bottom: clamp(48px, 8vw, 96px);
+    }
+    @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 32px; } }
+    .hero h1 { font-size: var(--fs-display); margin: 20px 0 16px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin: 28px 0 20px; }
+    .hero-badges { list-style: none; padding: 0; margin: 0; display: flex; gap: 20px; flex-wrap: wrap; }
+    .hero-badges li { display: flex; align-items: center; gap: 8px; font-size: var(--fs-sm); color: var(--ink-3); }
+    .hero-badges i { color: var(--forest-500); }
+
+    /* Иллюстрация hero */
+    .hero-visual {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: var(--r-xl);
+      background:
+        linear-gradient(135deg, #EAF3EA 0%, #D6E8D8 100%);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: grid; place-items: center;
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(61,122,74,.14), transparent 40%),
+        radial-gradient(circle at 75% 70%, rgba(153,192,56,.16), transparent 45%);
+    }
+    .hero-visual svg { width: 78%; height: auto; position: relative; }
+
+    /* ===== FEATURE GRID ===== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      transition: transform var(--dur) var(--ease), box-shadow var(--dur), border-color var(--dur);
+    }
+    .feature:hover {
+      transform: translateY(-2px);
+      border-color: var(--forest-200);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; margin-bottom: 16px;
+      border-radius: var(--r-md);
+      background: var(--forest-100);
+      color: var(--forest-600);
+      font-size: 1.1rem;
+    }
+    .feature h3 { margin: 0 0 6px; }
+    .feature p { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); }
+
+    /* ===== ДЕМО-БЛОКИ ===== */
+    .demo-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .demo-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+    .check {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: var(--r-pill);
+      background: var(--forest-50); border: 1px solid var(--line);
+      font-size: var(--fs-sm); font-weight: 500;
+    }
+    .check i { color: var(--forest-500); }
+    .check--muted { background: var(--line-2); color: var(--ink-3); }
+    .check--muted i { color: var(--ink-3); }
+
+    .shape-list { display: grid; gap: 10px; }
+    .shape-item {
+      padding: 12px 16px; border-radius: var(--r-md);
+      background: var(--surface); border: 1px solid var(--line);
+      font-size: var(--fs-sm);
+    }
+    .shape-item strong { display: block; margin-bottom: 2px; color: var(--forest-700); }
+    .shape-item--accent { background: var(--forest-50); border-color: var(--forest-200); }
+    .shape-item--warn { background: #FFF8E6; border-color: #F0DCA4; }
+    .shape-item--danger { background: #FDF0F0; border-color: #EDC4C4; }
+
+    .select-demo { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .select-demo input, .select-demo select {
+      padding: 8px 12px; border-radius: var(--r-sm);
+      border: 1px solid var(--line); background: var(--surface);
+      font-size: var(--fs-sm); font-family: inherit;
+    }
+    .select-demo input:focus, .select-demo select:focus { outline: 2px solid var(--lime-500); outline-offset: 1px; }
+
+    .mock-btn {
+      padding: 8px 14px; border-radius: var(--r-sm);
+      background: var(--forest-600); color: #fff; border: none;
+      font-size: var(--fs-sm); font-weight: 600;
+      cursor: not-allowed; opacity: .85;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .mock-btn--teal { background: #00897B; }
+    .mock-btn--red  { background: #C64848; }
+
+    .cta-strip {
+      text-align: center;
+      padding: clamp(32px, 5vw, 56px) 24px;
+      background: linear-gradient(135deg, var(--forest-700), var(--forest-500));
+      border-radius: var(--r-xl);
+      color: #fff;
+      box-shadow: var(--shadow-lg);
+    }
+    .cta-strip h2 { color: #fff; margin-bottom: 8px; }
+    .cta-strip p { color: rgba(255,255,255,.85); margin-bottom: 24px; }
+    .cta-strip .btn-primary { background: #fff; color: var(--forest-700); }
+    .cta-strip .btn-primary:hover { background: var(--lime-400); color: var(--forest-900); }
+  </style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="glav.html" class="brand" aria-label="Gridz — на главную">
+      <img src="img/logotyp.svg" alt="" width="40" height="40">
+      <span class="brand-name">Gridz
+        <svg viewBox="0 0 60 4" class="brand-underline" aria-hidden="true">
+          <path d="M0 2 Q15 0 30 2 T60 2" stroke="currentColor" fill="none" stroke-width="1.2" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-sub">лесные технологии</span>
+    </a>
+    <nav class="site-nav" aria-label="Основная навигация">
+      <a href="glav.html">Главная</a>
+      <a href="about.html">Документация</a>
+      <a href="xml.html">Схемы XSD</a>
+      <a href="map.html" aria-current="page">Лесная карта</a>
+      <a href="news.html">Новости</a>
+      <a href="price.html" class="nav-cta">Прайс</a>
+    </nav>
+    <button class="nav-burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav" hidden aria-label="Мобильная навигация">
+    <a href="glav.html">Главная</a>
+    <a href="about.html">Документация</a>
+    <a href="xml.html">Схемы XSD</a>
+    <a href="map.html" aria-current="page">Лесная карта</a>
+    <a href="news.html">Новости</a>
+    <a href="price.html">Прайс</a>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow"><i class="fas fa-tree"></i> Веб-картография · ФГИС ЛК</span>
+      <h1>Публичная лесная карта для полевых работ</h1>
+      <p class="lead">Слои Рослесхоза, привязка растров, топологические полигоны и GPS-обход — всё в одном окне браузера. Работает офлайн.</p>
+      <div class="hero-actions">
+        <a href="https://gridz.ru/map" target="_blank" rel="noopener" class="btn btn-primary">
+          Открыть карту <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#features" class="btn btn-ghost">Возможности</a>
+      </div>
+      <ul class="hero-badges">
+        <li><i class="fas fa-check-circle"></i> GPS и фотофиксация</li>
+        <li><i class="fas fa-check-circle"></i> Экспорт PNG · GeoJSON</li>
+        <li><i class="fas fa-check-circle"></i> Офлайн-кэш</li>
+      </ul>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 400 300" fill="none">
+        <path d="M20 240 L100 120 L180 190 L260 90 L380 210" stroke="#5E9A6B" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M20 240 L100 120 L180 190 L260 90 L380 210 L380 280 L20 280 Z" fill="rgba(153,192,56,.12)"/>
+        <circle cx="100" cy="120" r="6" fill="#2C6238"/>
+        <circle cx="180" cy="190" r="6" fill="#2C6238"/>
+        <circle cx="260" cy="90" r="6" fill="#99C038"/>
+        <circle cx="260" cy="90" r="14" stroke="#99C038" stroke-width="2" opacity=".5"/>
+        <rect x="250" y="60" width="120" height="44" rx="10" fill="#fff" stroke="#DCE6DD"/>
+        <text x="264" y="80" font-size="12" font-family="Inter, sans-serif" fill="#1F4A2A" font-weight="600">Лесосека 12</text>
+        <text x="264" y="94" font-size="10" font-family="Inter, sans-serif" fill="#6B7A6E">5.2 га · сосна</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section id="features" class="section">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Возможности</span>
+      <h2>Всё для полевых работ</h2>
+      <p class="muted">Инструменты, которые экономят часы ручной работы в лесу и офисе.</p>
+    </header>
+
+    <div class="feature-grid">
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-layer-group"></i></span>
+        <h3>Слои Рослесхоза</h3>
+        <p>Границы лесничеств, квартала по породам, выделы и лесосеки с прямой загрузкой.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-draw-polygon"></i></span>
+        <h3>Умные фигуры</h3>
+        <p>Топология с вырезами и линиями привязки. Азимут и расстояние — по ходу мыши.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-image"></i></span>
+        <h3>Свои подложки</h3>
+        <p>PNG/JPEG с ручной привязкой, архивы KMZ, тайловые базы MBTiles/SQLite.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-wifi"></i></span>
+        <h3>Офлайн-режим</h3>
+        <p>Заранее скачайте зумы — карта работает без сети, до 3000 фрагментов.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-file-import"></i></span>
+        <h3>Импорт полигонов</h3>
+        <p>GeoJSON, KML, GPX. Распознаём границы, привязку и вырезы автоматически.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-print"></i></span>
+        <h3>Печать и экспорт</h3>
+        <p>PNG по ГОСТу (1:5000–1:25000) со стрелкой севера и выгрузка в GeoJSON.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-satellite-dish"></i></span>
+        <h3>GPS-обход</h3>
+        <p>Маркер с индикатором точности, добавление точек в контур нажатием.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-camera"></i></span>
+        <h3>Фотофиксация</h3>
+        <p>Фото привязывается к координатам и ближайшей точке контура. Шаблоны описания.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-search"></i></span>
+        <h3>Поиск объектов</h3>
+        <p>По учётному номеру (УН) или иерархии: Регион → Лесничество → Квартал → Выдел.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-vector-square"></i></span>
+        <h3>Контуры и ЕГРН</h3>
+        <p>Загрузка готового контура выдела и обрезка лесосеки по границам Росреестра.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-route"></i></span>
+        <h3>Маршрут к участку</h3>
+        <p>Прокладка пути до лесосеки в Яндекс.Картах от текущего местоположения.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-icon"><i class="fas fa-file-export"></i></span>
+        <h3>Выгрузка в «Лесосеку»</h3>
+        <p>Абрис и координаты в 1 клик в программу «Лесосека» (ТОЛ / Дрова).</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ДЕМО: фигуры, подложки, офлайн, GPS ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="eyebrow">Как это работает</span>
+      <h2>Топология и полевые инструменты</h2>
+    </header>
+
+    <div class="demo-grid">
+      <div class="panel reveal">
+        <h3><i class="fas fa-shapes" style="color:var(--forest-600);margin-right:8px"></i> Умное рисование</h3>
+        <div class="shape-list">
+          <div class="shape-item shape-item--accent">
+            <strong>1. Линия привязки</strong>
+            <span class="muted">Путь от репера до начала участка</span>
+          </div>
+          <div class="shape-item shape-item--warn">
+            <strong>2. Основной контур</strong>
+            <span class="muted">Граница с автоматическим расчётом площади</span>
+          </div>
+          <div class="shape-item shape-item--danger">
+            <strong>3. Внутренние вырезы</strong>
+            <span class="muted">Полигон внутри основного автоматически становится «дырой»</span>
+          </div>
+        </div>
+        <div class="demo-row">
+          <span class="badge"><i class="fas fa-ruler-combined"></i> Азимут и расстояние</span>
+          <span class="badge"><i class="fas fa-hashtag"></i> Сквозная нумерация</span>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-layer-group" style="color:var(--forest-600);margin-right:8px"></i> Слои и подложки</h3>
+        <div class="stack">
+          <label class="check"><i class="fas fa-check-square"></i> Границы лесничеств</label>
+          <label class="check"><i class="fas fa-check-square"></i> Квартала и выдела</label>
+          <label class="check check--muted"><i class="fas fa-square"></i> Лесосеки</label>
+        </div>
+        <p class="muted" style="margin-top:16px;font-size:var(--fs-sm)">Загруженные подложки сохраняются в браузере: прозрачность и переключение — мгновенно.</p>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-wifi" style="color:var(--forest-600);margin-right:8px"></i> Офлайн-кэш</h3>
+        <div class="stack">
+          <label class="check"><i class="fas fa-check-square"></i> Офлайн-режим (включён)</label>
+          <div class="demo-row">
+            <label style="font-size:var(--fs-sm)">Зумы:</label>
+            <input type="number" value="1" min="0" max="3" style="width:56px;padding:6px 8px;border-radius:var(--r-sm);border:1px solid var(--line)" disabled>
+            <button class="mock-btn mock-btn--teal" disabled><i class="fas fa-download"></i> Скачать</button>
+            <button class="mock-btn mock-btn--red" disabled><i class="fas fa-trash-alt"></i> Очистить</button>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:16px;font-size:var(--fs-sm)">До 3000 фрагментов на выбранный масштаб — карта работает мгновенно без сети.</p>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-satellite-dish" style="color:var(--forest-600);margin-right:8px"></i> GPS-обход лесосеки</h3>
+        <ul style="padding-left:1.2em;margin:0;color:var(--ink-2);font-size:var(--fs-sm);line-height:1.7">
+          <li><strong>Маркер</strong> — центрирует карту при движении</li>
+          <li><strong>Точность &lt; 5 м</strong> — маркер становится зелёным</li>
+          <li><strong>«Добавить точку»</strong> — координаты падают в активный полигон</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ПОИСК + КОНТУРЫ ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="demo-grid">
+      <div class="panel reveal">
+        <h3><i class="fas fa-search" style="color:var(--forest-600);margin-right:8px"></i> Поиск объектов</h3>
+        <div class="select-demo">
+          <input type="text" placeholder="УН: 73:1:1:241:27">
+          <button class="mock-btn" disabled><i class="fas fa-search"></i> Найти</button>
+        </div>
+        <div class="select-demo">
+          <select><option>Регион</option></select>
+          <select><option>Лесничество</option></select>
+          <select><option>Участковое</option></select>
+        </div>
+        <p class="muted" style="margin-top:16px;font-size:var(--fs-sm)">Найденный объект подсвечивается, атрибуты — в панели справа.</p>
+      </div>
+
+      <div class="panel reveal">
+        <h3><i class="fas fa-vector-square" style="color:var(--forest-600);margin-right:8px"></i> Контур выдела / ЕГРН</h3>
+        <div class="shape-list">
+          <div class="shape-item">
+            <strong><i class="fas fa-tree" style="color:var(--forest-500)"></i> Выдел 12 · кв. 241</strong>
+            <span class="muted">5.2 га · <a href="#">Загрузить контур</a></span>
+          </div>
+          <div class="shape-item">
+            <strong><i class="fas fa-map-marked-alt" style="color:var(--info)"></i> ЕГРН 73:12:010201:23</strong>
+            <span class="muted"><a href="#">Обрезать активную фигуру</a> (turf.js)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="cta-strip reveal">
+      <h2>Откройте карту прямо сейчас</h2>
+      <p>Бесплатно. Без установки. Работает в любом современном браузере.</p>
+      <a href="https://gridz.ru/map" target="_blank" rel="noopener" class="btn btn-primary">
+        <i class="fas fa-map-marked-alt"></i> gridz.ru/map
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="container" style="padding-bottom:48px;text-align:center;color:var(--ink-3);font-size:var(--fs-sm)">
+  © Gridz — новые технологии для лесного хозяйства
+</footer>
+
+<script src="assets/header.js" defer></script>
+</body>
+</html>
